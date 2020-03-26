@@ -1,10 +1,12 @@
 package pl.coderslab.model;
 
+import java.time.LocalDateTime;
+
 public class Plan {
     private int id;
     private String name;
     private String description;
-    private String created;
+    private LocalDateTime created;
     private Admin admin;
 
     @Override
@@ -20,7 +22,7 @@ public class Plan {
     public Plan() {
     }
 
-    public Plan(String name, String description, String created, Admin admin) {
+    public Plan(String name, String description, LocalDateTime created, Admin admin) {
         this.name = name;
         this.description = description;
         this.created = created;
@@ -51,11 +53,11 @@ public class Plan {
         this.description = description;
     }
 
-    public String getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

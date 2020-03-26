@@ -7,8 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class PlanDAO {
 
@@ -17,10 +20,13 @@ public class PlanDAO {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ? WHERE id = ?;";
+    private static final String FIND_ALL_PLANS_BY_ADMIN_ID_QUERY = "SELECT * FROM plan WHERE admin_id = ? ORDER BY updated DESC;";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     public Plan read(Integer PlanId) {
         Plan plan = new Plan();
+        AdminDAO adminRead = new AdminDAO();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_PLAN_QUERY);
         ) {
@@ -30,10 +36,8 @@ public class PlanDAO {
                     plan.setId(resultSet.getInt("id"));
                     plan.setName(resultSet.getString("name"));
                     plan.setDescription(resultSet.getString("description"));
-                    int adminId =resultSet.getInt("admin_id");
-                    Admin admin = AdminDao.read(adminId);
-                    plan.setAdmin(admin);
-
+                    plan.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16),formatter));
+                    plan.setAdmin(adminRead.read(resultSet.getInt("id")));
 
                 }
             }
@@ -46,6 +50,7 @@ public class PlanDAO {
 
     public List<Plan> findAll() {
         List<Plan> PlanList = new ArrayList<>();
+        AdminDAO adminFindAll = new AdminDAO();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
@@ -55,9 +60,8 @@ public class PlanDAO {
                 planToAdd.setId(resultSet.getInt("id"));
                 planToAdd.setName(resultSet.getString("name"));
                 planToAdd.setDescription(resultSet.getString("description"));
-                int adminId =resultSet.getInt("admin_id");
-                Admin admin = AdminDao.read(adminId);
-                planToAdd.setAdmin(admin);
+                planToAdd.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16),formatter));
+                planToAdd.setAdmin(adminFindAll.read(resultSet.getInt("id")));
                 PlanList.add(planToAdd);
             }
 
@@ -68,13 +72,44 @@ public class PlanDAO {
 
     }
 
-    public Plan create(Plan plan,Admin admin) {
+    public List<Plan> findAllByAdminId (int adminId) {
+        List<Plan> adminRecipesList = new ArrayList<>();
+        AdminDao adminPlans = new AdminDao();
+
+        try (Connection connect = DbUtil.getConnection();
+             PreparedStatement statement = connect.prepareStatement(FIND_ALL_PLANS_BY_ADMIN_ID_QUERY)){
+            statement.setInt(1, adminId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Plan adminPlan = new Plan();
+
+                adminPlan.setId(resultSet.getInt("id"));
+                adminPlan.setName((resultSet.getString("name")));
+                adminPlan.setDescription(resultSet.getString("description"));
+                adminPlan.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
+                adminPlan.setAdmin(adminPlans.read(resultSet.getInt("id")));
+                adminRecipesList.add(adminPlan);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return adminRecipesList;
+    }
+
+
+    public Plan create(Plan plan) {
+
+        LocalDateTime dateTime = LocalDateTime.now();
+
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_PLAN_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             insertStm.setString(1, plan.getName());
             insertStm.setString(2, plan.getDescription());
-            insertStm.setString(3, admin.getId);
+            insertStm.setString(3, String.valueOf(dateTime));
+            insertStm.setString(4, plan.getAdmin().getId);
 
 
             int result = insertStm.executeUpdate();
