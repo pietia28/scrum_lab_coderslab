@@ -26,7 +26,7 @@ public class PlanDAO {
 
     public Plan read(Integer PlanId) {
         Plan plan = new Plan();
-        AdminDAO adminRead = new AdminDAO();
+        AdminDao adminRead = new AdminDao();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_PLAN_QUERY);
         ) {
@@ -50,7 +50,7 @@ public class PlanDAO {
 
     public List<Plan> findAll() {
         List<Plan> PlanList = new ArrayList<>();
-        AdminDAO adminFindAll = new AdminDAO();
+        AdminDao adminFindAll = new AdminDao();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
@@ -109,7 +109,7 @@ public class PlanDAO {
             insertStm.setString(1, plan.getName());
             insertStm.setString(2, plan.getDescription());
             insertStm.setString(3, String.valueOf(dateTime));
-            insertStm.setString(4, plan.getAdmin().getId);
+            insertStm.setInt(4, plan.getAdmin().getId());
 
 
             int result = insertStm.executeUpdate();
