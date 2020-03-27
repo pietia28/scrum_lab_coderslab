@@ -40,6 +40,7 @@
 
 
 </section>
+<jsp:include page="/include/lastInfo.jsp"/>
 <jsp:include page="/include/footer.jsp"/>
 
 

@@ -14,6 +14,6 @@ public class Contact extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-        getServletContext().getRequestDispatcher("/include/contact.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/contact.jsp").forward(request, response);
     }
 }
