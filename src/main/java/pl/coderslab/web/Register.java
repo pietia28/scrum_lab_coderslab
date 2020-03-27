@@ -16,15 +16,15 @@ import java.util.Map;
 @WebServlet(name = "Register", urlPatterns={"/register"})
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(comparePasswords(request.getParameter("password"),request.getParameter("repassword"))) {
+        if(comparePasswords(request.getParameter("password").trim(), request.getParameter("repassword").trim())) {
             Map<String, String> params = new HashMap<>();
             params.put("name", request.getParameter("name"));
             params.put("surname", request.getParameter("surname"));
-            params.put("email", request.getParameter("email"));
-            params.put("password", request.getParameter("password"));
-            PrintWriter printWriter = response.getWriter();
-            printWriter.println(saveData(params));
+            params.put("email", request.getParameter("email").trim());
+            params.put("password", request.getParameter("password").trim());
+            response.sendRedirect(request.getContextPath() + "/login");
         } else {
+            request.setAttribute("passWarring", "Hasła nie są zgodne!");
             getServletContext().getRequestDispatcher("/register.jsp")
                     .forward(request, response);
         }
