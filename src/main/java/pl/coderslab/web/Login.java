@@ -23,7 +23,7 @@ public class Login extends HttpServlet {
         AdminDao adminDao = new AdminDao();
         if (adminDao.isAuthorised(password, email)) {
             HttpSession session = request.getSession();
-            session.setAttribute("authorised", true);
+            session.setAttribute("authorised", email);
             response.getWriter().append("Zalogowany");
         } else {
             request.setAttribute("message", "Niepoprawne dane logowania");
