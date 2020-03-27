@@ -32,12 +32,8 @@ public class Login extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if (session.getAttribute("authorised") == null) {
             getServletContext().getRequestDispatcher("/login.jsp")
                     .forward(request, response);
-        } else {
-            response.getWriter().append("Zalogowany");
-        }
+
     }
 }
