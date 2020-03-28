@@ -39,7 +39,7 @@ public class RecipesList extends HttpServlet {
             List<Recipe> adminRecipes = recipeDao.findAllByAdminId(adminId);
             session.setAttribute("adminRecipes", adminRecipes);
 
-            getServletContext().getRequestDispatcher("/app/recipeslist.jsp")
+            getServletContext().getRequestDispatcher("/app/recipesList.jsp")
                     .forward(request, response);
         } else  {
             request.setAttribute("message", "Zaloguj sie aby wyświetlić stronę");
