@@ -10,6 +10,14 @@ public class PlanDetails {
     public PlanDetails() {
     }
 
+    public PlanDetails(int id, String mealName, String dayName, Recipe recipe, Plan plan) {
+        this.id = id;
+        this.mealName = mealName;
+        this.dayName = dayName;
+        this.recipe = recipe;
+        this.plan = plan;
+    }
+
     public int getId() {
         return id;
     }
@@ -51,4 +59,14 @@ public class PlanDetails {
         this.plan = plan;
     }
 
+    @Override
+    public String toString() {
+        return "PlanDetails{" +
+                "id=" + id +
+                ", mealName='" + mealName + '\'' +
+                ", dayName='" + dayName + '\'' +
+                ", recipe=" + recipe +
+                ", plan=" + plan +
+                '}';
+    }
 }
