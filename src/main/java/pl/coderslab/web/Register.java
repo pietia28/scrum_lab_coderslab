@@ -22,6 +22,7 @@ public class Register extends HttpServlet {
             params.put("surname", request.getParameter("surname"));
             params.put("email", request.getParameter("email").trim());
             params.put("password", request.getParameter("password").trim());
+            saveData(params);
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             request.setAttribute("passWarring", "Hasła nie są zgodne!");
