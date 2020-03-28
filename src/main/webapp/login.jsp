@@ -32,7 +32,9 @@
             <div class="container w-25">
                 <form class="padding-small text-center" action="/login" method="post">
                     <h1 class="text-color-darker">Logowanie</h1>
-                    <div class="app-error"><c:out value="${message}"></c:out></div>
+                    <c:if test="${message !=null}">
+                        <div class="app-error"><c:out value="${message}"></c:out></div>
+                    </c:if>
                     <div class="form-group">
                         <input type="text" class="form-control" id="email" name="email" placeholder="podaj adres email">
                     </div>
