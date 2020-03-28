@@ -11,13 +11,13 @@
                 <a class="nav-link color-header" href="/registration">rejestracja</a>
             </li>
             <li class="nav-item ml-4">
-                <a class="nav-link" href="#about">o aplikacji</a>
+                <a class="nav-link" href="/about">o aplikacji</a>
             </li>
             <li class="nav-item ml-4">
                 <a class="nav-link disabled" href="/recipes">Przepisy</a>
             </li>
             <li class="nav-item ml-4">
-                <a class="nav-link disabled" href="#contact">Kontakt</a>
+                <a class="nav-link disabled" href="/contact">Kontakt</a>
             </li>
         </ul>
     </nav>
