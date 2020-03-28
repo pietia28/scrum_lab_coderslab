@@ -150,7 +150,7 @@ public class RecipeDao {
                 Recipe oneRecipe = new Recipe();
                 oneRecipe.setId(resultSet.getInt("id"));
                 oneRecipe.setName((resultSet.getString("name")));
-                oneRecipe.setIngredients(resultSet.getString("ingredients"));
+                oneRecipe.setDescription(resultSet.getString("description"));
                 oneRecipe.setIngredients(resultSet.getString("description"));
                 oneRecipe.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
                 oneRecipe.setUpdated(LocalDateTime.parse(resultSet.getString("updated").substring(0, 16), formatter));
@@ -182,7 +182,7 @@ public class RecipeDao {
                 adminRecipe.setId(resultSet.getInt("id"));
                 adminRecipe.setName((resultSet.getString("name")));
                 adminRecipe.setIngredients(resultSet.getString("ingredients"));
-                adminRecipe.setIngredients(resultSet.getString("description"));
+                adminRecipe.setDescription(resultSet.getString("description"));
                 adminRecipe.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
                 adminRecipe.setUpdated(LocalDateTime.parse(resultSet.getString("updated").substring(0, 16), formatter));
                 adminRecipe.setPreparationTime(resultSet.getInt("preparation_time"));
@@ -211,7 +211,7 @@ public class RecipeDao {
                 adminRecipe.setId(resultSet.getInt("id"));
                 adminRecipe.setName((resultSet.getString("name")));
                 adminRecipe.setIngredients(resultSet.getString("ingredients"));
-                adminRecipe.setIngredients(resultSet.getString("description"));
+                adminRecipe.setDescription(resultSet.getString("description"));
                 adminRecipe.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
                 adminRecipe.setUpdated(LocalDateTime.parse(resultSet.getString("updated").substring(0, 16), formatter));
                 adminRecipe.setPreparationTime(resultSet.getInt("preparation_time"));
