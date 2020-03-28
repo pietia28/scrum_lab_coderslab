@@ -1,7 +1,9 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
+import pl.coderslab.model.Recipe;
 import pl.coderslab.model.PlanDetails;
 import pl.coderslab.utils.DbUtil;
 import java.sql.Connection;
@@ -168,10 +170,20 @@ public class PlanDAO {
 
     }
 
+    public int numberOfPlans (String email) {
+        AdminDao adminDao = new AdminDao();
+        PlanDAO planDao = new PlanDAO();
+        List<Admin> admins = adminDao.findAdminsByEmail(email);
+        List<Plan> plans = planDao.findAllByAdminId(admins.get(0).getId());
+        return plans.size();
+    }
+
+
     public List<PlanDetails> findAllRecipePlanDetails (int adminId) {
         List<PlanDetails> myPlanDetails = new ArrayList<>();
         RecipeDao recipeDao = new RecipeDao();
         PlanDAO planDAO = new PlanDAO(); //czy tu nie wystarczy string z nazwą
+
 
         try (Connection connection = DbUtil.getConnection();
         PreparedStatement statement = connection.prepareStatement(FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY)) {
