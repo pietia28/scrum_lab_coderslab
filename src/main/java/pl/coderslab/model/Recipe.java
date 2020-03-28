@@ -20,7 +20,7 @@ public class Recipe {
 
 
     public Recipe(String name, String ingredients, String description, LocalDateTime created, LocalDateTime updated,
-                  int preparationTime, String preparation, Admin admin) {
+                  int preparationTime, String preparation, Admin admin, int adminId) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;

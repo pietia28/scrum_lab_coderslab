@@ -457,3 +457,11 @@ margin: 0 auto !important;
 .schedules-content-header {
   margin-bottom: 50px;
 }
+
+.app-error {
+  max-width:400px;
+  color: #D8000C;
+  background-color: #FFD2D2;
+  border: 1px solid #D8000C;
+  margin:3px;
+}

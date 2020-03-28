@@ -150,8 +150,13 @@ public class RecipeDao {
                 Recipe oneRecipe = new Recipe();
                 oneRecipe.setId(resultSet.getInt("id"));
                 oneRecipe.setName((resultSet.getString("name")));
+
                 oneRecipe.setDescription(resultSet.getString("description"));
                 oneRecipe.setIngredients(resultSet.getString("description"));
+
+                oneRecipe.setIngredients(resultSet.getString("ingredients"));
+                oneRecipe.setDescription(resultSet.getString("description"));
+
                 oneRecipe.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
                 oneRecipe.setUpdated(LocalDateTime.parse(resultSet.getString("updated").substring(0, 16), formatter));
                 oneRecipe.setPreparationTime(resultSet.getInt("preparation_time"));
