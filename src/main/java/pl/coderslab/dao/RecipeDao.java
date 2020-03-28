@@ -225,4 +225,13 @@ public class RecipeDao {
         return recipesFiltered;
     }
 
+    public int numberOfRecipes (String email) {
+        AdminDao adminDao = new AdminDao();
+        List<Admin> admins = adminDao.findAdminsByEmail(email);
+        RecipeDao recipeDao = new RecipeDao();
+        List<Recipe> recipes = recipeDao.findAllByAdminId(admins.get(0).getId());
+        return recipes.size();
+    }
+
+
 }

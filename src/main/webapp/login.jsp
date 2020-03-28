@@ -39,6 +39,7 @@
                         <input type="text" class="form-control" id="password" name="password" placeholder="podaj hasło">
                     </div>
                     <button class="btn btn-color rounded-0" type="submit">Zaloguj</button>
+                    <p><c:out value="${message}"></c:out></p>
                 </form>
             </div>
         </div>

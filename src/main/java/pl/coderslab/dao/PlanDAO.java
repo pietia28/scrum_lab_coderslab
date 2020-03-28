@@ -4,6 +4,7 @@ import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
+import pl.coderslab.model.PlanDetails;
 import pl.coderslab.utils.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +24,13 @@ public class PlanDAO {
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ? WHERE id = ?;";
     private static final String FIND_ALL_PLANS_BY_ADMIN_ID_QUERY = "SELECT * FROM plan WHERE admin_id = ? ORDER BY updated DESC;";
+    private static final String FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY = "SELECT recipe_plan.id as recipe_plan_id, " +
+            "day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -39,7 +47,7 @@ public class PlanDAO {
                     plan.setName(resultSet.getString("name"));
                     plan.setDescription(resultSet.getString("description"));
                     plan.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16),formatter));
-                    plan.setAdmin(adminRead.read(resultSet.getInt("id")));
+                    plan.setAdmin(adminRead.read(resultSet.getInt("admin_id")));
 
                 }
             }
@@ -63,7 +71,7 @@ public class PlanDAO {
                 planToAdd.setName(resultSet.getString("name"));
                 planToAdd.setDescription(resultSet.getString("description"));
                 planToAdd.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16),formatter));
-                planToAdd.setAdmin(adminFindAll.read(resultSet.getInt("id")));
+                planToAdd.setAdmin(adminFindAll.read(resultSet.getInt("admin_id")));
                 PlanList.add(planToAdd);
             }
 
@@ -90,7 +98,7 @@ public class PlanDAO {
                 adminPlan.setName((resultSet.getString("name")));
                 adminPlan.setDescription(resultSet.getString("description"));
                 adminPlan.setCreated(LocalDateTime.parse(resultSet.getString("created").substring(0, 16), formatter));
-                adminPlan.setAdmin(adminPlans.read(resultSet.getInt("id")));
+                adminPlan.setAdmin(adminPlans.read(resultSet.getInt("admin_id")));
                 adminRecipesList.add(adminPlan);
             }
         } catch (SQLException ex) {
@@ -171,6 +179,33 @@ public class PlanDAO {
     }
 
 
+    public List<PlanDetails> findAllRecipePlanDetails (int adminId) {
+        List<PlanDetails> myPlanDetails = new ArrayList<>();
+        RecipeDao recipeDao = new RecipeDao();
+        PlanDAO planDAO = new PlanDAO(); //czy tu nie wystarczy string z nazwą
+
+
+        try (Connection connection = DbUtil.getConnection();
+        PreparedStatement statement = connection.prepareStatement(FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY)) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    PlanDetails planDetails = new PlanDetails();
+
+                    planDetails.setId(resultSet.getInt("recipe_plan_id"));
+                    planDetails.setDayName(resultSet.getString("day_name")); //pobieramy Stringa gdyż nie ma metody read dla DAO;
+                    planDetails.setMealName(resultSet.getString("meal_name"));
+                    planDetails.setRecipe(recipeDao.read(resultSet.getInt("recipe_id")));
+                    planDetails.setPlan(planDAO.read(resultSet.getInt("plan_id")));
+                    myPlanDetails.add(planDetails);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return myPlanDetails;
+    }
 
 
 }

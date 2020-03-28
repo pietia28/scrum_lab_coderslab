@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Book;
@@ -14,7 +15,7 @@ public class AdminDao {
     private static final String CREATE_ADMIN_QUERY =
             "INSERT INTO admins(first_name, last_name, email, password, superadmin, enable)" +
                     "VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String READ_ADMIN_QUERY=
+    private static final String READ_ADMIN_QUERY =
             "SELECT * FROM admins WHERE id = ?";
     private static final String UPDATE_ADMIN_QUERY =
             "UPDATE admins SET first_name = ?, last_name = ?, email = ?, password = ?, superadmin = ?, enable = ?" +
@@ -84,7 +85,7 @@ public class AdminDao {
             preparedStatement.setInt(1, adminId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                   admin = getAdminFromResultSet(resultSet, admin);
+                    admin = getAdminFromResultSet(resultSet, admin);
                 }
             }
         } catch (SQLException ex) {
@@ -202,7 +203,7 @@ public class AdminDao {
         }
     }
 
-    public List<Admin> findSpecificNumbersOfAdmins (int startAdminsRecord, int numbersOfAdminsRecord) {
+    public List<Admin> findSpecificNumbersOfAdmins(int startAdminsRecord, int numbersOfAdminsRecord) {
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_LIMITED_ADMIN_QUERY);
             preparedStatement.setInt(1, startAdminsRecord);
@@ -236,4 +237,22 @@ public class AdminDao {
         admin.setEnable(resultSet.getByte("enable"));
         return admin;
     }
+
+    public boolean authorisation(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
+    }
+
+    public boolean isAuthorised(String password, String email) {
+        AdminDao adminDao = new AdminDao();
+        List<Admin> admins = adminDao.findAdminsByEmail(email);
+        if (admins.size() == 0) {
+            return false;
+        }
+        String hashedPassword = admins.get(0).getPassword();
+        if (adminDao.authorisation(password, hashedPassword)) {
+            return true;
+        }
+        return false;
+    }
+
 }
