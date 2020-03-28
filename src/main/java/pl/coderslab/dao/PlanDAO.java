@@ -1,7 +1,9 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
+import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -158,6 +160,14 @@ public class PlanDAO {
             e.printStackTrace();
         }
 
+    }
+
+    public int numberOfPlans (String email) {
+        AdminDao adminDao = new AdminDao();
+        PlanDAO planDao = new PlanDAO();
+        List<Admin> admins = adminDao.findAdminsByEmail(email);
+        List<Plan> plans = planDao.findAllByAdminId(admins.get(0).getId());
+        return plans.size();
     }
 
 
