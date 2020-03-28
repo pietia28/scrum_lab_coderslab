@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PlanDAO {
 
-    private static final String CREATE_PLAN_QUERY = "INSERT INTO plan(name,description,created,admin_id) VALUES (?,?,TIME (NOW()),?);";
+    private static final String CREATE_PLAN_QUERY = "INSERT INTO plan(name,description,created,admin_id) VALUES (?,?,?,?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
