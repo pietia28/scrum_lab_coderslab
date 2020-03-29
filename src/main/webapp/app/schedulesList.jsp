@@ -21,7 +21,7 @@
 
 </head>
 <body>
-<jsp:include page="../include/header.jsp"/>
+<jsp:include page="../include/app-header.jsp"/>
 
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
@@ -58,7 +58,7 @@
                                 ${schedule.getDescription()}
                             </td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap"><a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                <a href="/app/recipe/details?recipeId=${schedule.getId()}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                <a href="/app/plan/details?id=${schedule.getId()}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                                 <a href="/app-edit-schedules.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                             </td>
                         </tr>
@@ -70,7 +70,7 @@
         </div>
     </div>
 </section>
-
+<jsp:include page="../include/footer.jsp"/>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
