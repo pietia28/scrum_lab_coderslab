@@ -27,28 +27,17 @@ public class RecipesList extends HttpServlet {
         //TODO Obsługa przycisków akcji widoku: USUŃ, EDYTUJ, SZCZEGÓŁY
         //TODO zamiana nagłówka w widku
 
-        response.setCharacterEncoding("UTF8");
-        response.setContentType("text/html");
-
         HttpSession session = request.getSession();
         String adminEmail = (String)session.getAttribute("authorised");
         AdminDao adminDao = new AdminDao();
-        List<Admin> admin = adminDao.findAdminsByEmail(adminEmail);
+        int adminId = adminDao.findSingleAdminByEmail(adminEmail).getId();
 
-        if (admin.size()>0) {
-            int adminId = admin.get(0).getId();
+        RecipeDao recipeDao = new RecipeDao();
+        List<Recipe> adminRecipes = recipeDao.findAllByAdminId(adminId);
+        session.setAttribute("adminRecipes", adminRecipes);
 
-            RecipeDao recipeDao = new RecipeDao();
-            List<Recipe> adminRecipes = recipeDao.findAllByAdminId(adminId);
-            session.setAttribute("adminRecipes", adminRecipes);
-
-            getServletContext().getRequestDispatcher("/app/recipesList.jsp")
-                    .forward(request, response);
-        } else  {
-            request.setAttribute("message", "Zaloguj sie aby wyświetlić stronę");
-            getServletContext().getRequestDispatcher("/login")
-                    .forward(request, response);
-        }
+        getServletContext().getRequestDispatcher("/app/recipesList.jsp")
+                .forward(request, response);
 
     }
 }
