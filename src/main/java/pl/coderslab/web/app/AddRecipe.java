@@ -19,6 +19,7 @@ import java.util.Map;
 public class AddRecipe extends HttpServlet {
     private String email;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF8");
         saveData(getRecipesAsHashMap(request));
         response.sendRedirect(request.getContextPath() + "/app/recipe/list");
     }
