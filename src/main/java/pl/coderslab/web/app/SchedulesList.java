@@ -1,9 +1,8 @@
 package pl.coderslab.web.app;
 
 import pl.coderslab.dao.AdminDao;
-import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.Recipe;
+import pl.coderslab.dao.PlanDAO;
+import pl.coderslab.model.Plan;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,32 +11,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "RecipesList", urlPatterns = {"/app/recipe/list"})
-public class RecipesList extends HttpServlet {
+@WebServlet(name = "PlanList", urlPatterns = {"/app/plan/list"})
+public class SchedulesList extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //TODO Obsługa przycisków akcji widoku: USUŃ, EDYTUJ, SZCZEGÓŁY
-        //TODO zamiana nagłówka w widku
+        //TODO zmiana nagłówka w widoku
+        //TODO obsługa przycisków akcji: USUŃ, EDYTUJ, SZCZEGÓŁY
 
         HttpSession session = request.getSession();
-        String adminEmail = (String)session.getAttribute("authorised");
+
+        String adminEmail = (String) session.getAttribute("authorised");
         AdminDao adminDao = new AdminDao();
         int adminId = adminDao.findSingleAdminByEmail(adminEmail).getId();
 
-        RecipeDao recipeDao = new RecipeDao();
-        List<Recipe> adminRecipes = recipeDao.findAllByAdminId(adminId);
-        session.setAttribute("adminRecipes", adminRecipes);
+        PlanDAO planDAO = new PlanDAO();
+        List<Plan> adminSchedules = planDAO.findAllByAdminId(adminId);
 
-        getServletContext().getRequestDispatcher("/app/recipesList.jsp")
+        session.setAttribute("adminSchedules", adminSchedules);
+
+        getServletContext().getRequestDispatcher("/app/schedulesList.jsp")
                 .forward(request, response);
-
     }
 }

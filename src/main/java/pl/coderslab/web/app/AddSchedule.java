@@ -34,8 +34,7 @@ public class AddSchedule extends HttpServlet {
         PlanDAO planDAO = new PlanDAO();
         planDAO.create(plan);
 
-        getServletContext().getRequestDispatcher("/app/plan/list")
-                .forward(request,response);
+        response.sendRedirect("/app/plan/list");
 
     }
 
