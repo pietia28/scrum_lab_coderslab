@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "Add", urlPatterns = {"/app/recipe/add"})
-public class Add extends HttpServlet {
+@WebServlet(name = "AddRecipe", urlPatterns = {"/app/recipe/add"})
+public class AddRecipe extends HttpServlet {
     private String email;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         saveData(getRecipesAsHashMap(request));
