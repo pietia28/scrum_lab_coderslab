@@ -24,6 +24,9 @@ public class RecipesList extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //TODO Obsługa przycisków akcji widoku: USUŃ, EDYTUJ, SZCZEGÓŁY
+        //TODO zamiana nagłówka w widku
+
         response.setCharacterEncoding("UTF8");
         response.setContentType("text/html");
 
