@@ -18,10 +18,10 @@
 </head>
 
 <body>
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/app-header.jsp" />
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
-        <%-- <jsp:include page="../include/leftmenu.jsp"/> --%>
+        <jsp:include page="../include/leftmenu.jsp" />
         <div class="m-4 p-3 width-medium text-color-darker">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
 
@@ -88,7 +88,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<jsp:include page="../include/lastInfo.jsp"/>
 <jsp:include page="../include/footer.jsp"/>
 </body>
 </html>
