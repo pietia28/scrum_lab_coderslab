@@ -16,6 +16,7 @@ import java.util.Map;
 @WebServlet(name = "Register", urlPatterns={"/register"})
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF8");
         if(comparePasswords(request.getParameter("password").trim(), request.getParameter("repassword").trim())) {
             Map<String, String> params = new HashMap<>();
             params.put("name", request.getParameter("name"));
