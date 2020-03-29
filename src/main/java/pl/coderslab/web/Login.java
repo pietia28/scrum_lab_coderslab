@@ -1,6 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.AdminDao;
+import pl.coderslab.model.Admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +18,11 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
 
         AdminDao adminDao = new AdminDao();
+        Admin admin = adminDao.findSingleAdminByEmail(email);
         if (adminDao.isAuthorised(password, email)) {
             HttpSession session = request.getSession();
             session.setAttribute("authorised", email);
+            session.setAttribute("adminName", admin.getFirst_name());
             response.getWriter().append("Zalogowany");
         } else {
             request.setAttribute("message", "Niepoprawne dane logowania. Spróbuj jeszcze raz.");
