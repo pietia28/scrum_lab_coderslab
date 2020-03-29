@@ -3,7 +3,7 @@ package pl.coderslab.web.app;
 import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Admin;
-import pl.coderslab.model.Recipe;git
+import pl.coderslab.model.Recipe;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
