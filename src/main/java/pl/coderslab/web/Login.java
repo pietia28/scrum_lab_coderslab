@@ -24,7 +24,9 @@ public class Login extends HttpServlet {
         if (adminDao.isAuthorised(password, email)) {
             HttpSession session = request.getSession();
             session.setAttribute("authorised", email);
-            response.getWriter().append("Zalogowany");
+
+           response.sendRedirect(request.getContextPath() + "/app/dashboard");
+
         } else {
             request.setAttribute("message", "Niepoprawne dane logowania");
             getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
@@ -32,7 +34,11 @@ public class Login extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            getServletContext().getRequestDispatcher("/login.jsp")
+
+
+
+
+        getServletContext().getRequestDispatcher("/login.jsp")
                     .forward(request, response);
 
     }
