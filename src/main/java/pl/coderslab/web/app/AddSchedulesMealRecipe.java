@@ -20,7 +20,7 @@ import java.util.List;
 @WebServlet(name = "AddSchedulesMealRecipe", urlPatterns = {"/app/recipe/plan/add"})
 public class AddSchedulesMealRecipe extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        
 
     }
 
@@ -33,15 +33,15 @@ public class AddSchedulesMealRecipe extends HttpServlet {
 
         PlanDAO planDAO = new PlanDAO();
         List<Plan> plans = planDAO.findAllByAdminId(adminId);
-        session.setAttribute("plans", plans);
+        request.setAttribute("plans", plans);
 
         RecipeDao recipeDao = new RecipeDao();
         List<Recipe> recipes = recipeDao.findAllByAdminId(adminId);
-        session.setAttribute("recipes", recipes);
+        request.setAttribute("recipes", recipes);
 
         DayNameDao dayNameDao = new DayNameDao();
         List<DayName> dayNames = dayNameDao.findAll();
-        session.setAttribute("dayNames", dayNames);
+        request.setAttribute("dayNames", dayNames);
 
         getServletContext().getRequestDispatcher("/app/addSchedulesMealRecipe.jsp")
                 .forward(request,response);
