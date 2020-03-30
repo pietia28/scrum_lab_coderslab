@@ -22,12 +22,12 @@ public class Login extends HttpServlet {
         if (adminDao.isAuthorised(password, email)) {
             HttpSession session = request.getSession();
             session.setAttribute("authorised", email);
-<<<<<<< HEAD
 
+            session.setAttribute("adminName", admin.getFirst_name());
            response.sendRedirect(request.getContextPath() + "/app/dashboard");
 
-=======
-            session.setAttribute("adminName", admin.getFirst_name());
+
+
 
         } else {
             request.setAttribute("message", "Niepoprawne dane logowania. Spróbuj jeszcze raz.");

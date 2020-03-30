@@ -1,4 +1,4 @@
-package pl.coderslab.web;
+package pl.coderslab.web.app;
 
 import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.PlanDAO;
@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "HomePageLogin",urlPatterns = "/app/dashboard")
 public class Dashboard extends HttpServlet {
@@ -29,39 +32,40 @@ public class Dashboard extends HttpServlet {
         String email = String.valueOf(session.getAttribute("authorised")); // pobranie maila z sesji i przypisanie go do Stringa do dalszego użycia
 
 
-        RecipeDao recipeDao = new RecipeDao();
-        int numberOfRecipes = recipeDao.numberOfRecipes(email);
 
-        request.setAttribute("numberofrecipes" ,String.valueOf(numberOfRecipes)); // liczba przepisów
+        RecipeDao recipeDao = new RecipeDao();
+        request.setAttribute("numberofrecipes" ,String.valueOf(recipeDao.numberOfRecipes(email))); // liczba przepisów
 
         PlanDAO planDAO = new PlanDAO();
-        int numberOfPlans = planDAO.numberOfPlans(email);
-
-        request.setAttribute("numberofplans" , String.valueOf(numberOfPlans)); // liczba planów
+        request.setAttribute("numberofplans" , String.valueOf(planDAO.numberOfPlans(email))); // liczba planów
 
         AdminDao adminDao = new AdminDao();
         List<Admin> adminList = adminDao.findAdminsByEmail(email);
         Admin admin = new Admin();
         admin = adminList.get(0);
 
-        request.setAttribute("admin",admin); //Imię użytkownika na stronie po zalogowaniu w prawym górnym rogu
 
         Plan plan = new Plan();
-        PlanDAO planDAO1 = new PlanDAO();
         PlanDetails planDetails = new PlanDetails();
-
-        List<PlanDetails> planList = planDAO1.findAllRecipePlanDetails(admin.getId());
+        List<PlanDetails> planList = planDAO.findAllRecipePlanDetails(admin.getId());
         planDetails = planList.get(0);
         plan = planDetails.getPlan();
 
-        request.setAttribute("plan",plan); // Ostatni dodany plan nazwa
+        request.setAttribute("plan", plan); // Ostatni dodany plan nazwa
+
+        request.setAttribute("planDetails", planList);
 
 
-
-        getServletContext().getRequestDispatcher("/dashboard.jsp")
+        getServletContext().getRequestDispatcher("/app/dashboard.jsp")
                 .forward(request, response);
 
 
     }
 
-}
+
+
+
+
+    }
+
+
