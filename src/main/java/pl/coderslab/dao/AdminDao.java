@@ -172,6 +172,31 @@ public class AdminDao {
     }
 
     /**
+     * Get single admin by email
+     *
+     * @param email
+     * @return
+     */
+    public Admin findSingleAdminByEmail(String email) {
+        Admin admin = new Admin();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ADMINs_BY_EMAIL_QUERY)
+        ) {
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    admin = getAdminFromResultSet(resultSet, admin);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return admin;
+
+    }
+
+    /**
      * Get admin by superadmin
      *
      * @param superAdmin

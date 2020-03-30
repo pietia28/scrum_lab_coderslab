@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.List;
 
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
@@ -21,14 +18,19 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
 
         AdminDao adminDao = new AdminDao();
+        Admin admin = adminDao.findSingleAdminByEmail(email);
         if (adminDao.isAuthorised(password, email)) {
             HttpSession session = request.getSession();
             session.setAttribute("authorised", email);
+<<<<<<< HEAD
 
            response.sendRedirect(request.getContextPath() + "/app/dashboard");
 
+=======
+            session.setAttribute("adminName", admin.getFirst_name());
+
         } else {
-            request.setAttribute("message", "Niepoprawne dane logowania");
+            request.setAttribute("message", "Niepoprawne dane logowania. Spróbuj jeszcze raz.");
             getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
