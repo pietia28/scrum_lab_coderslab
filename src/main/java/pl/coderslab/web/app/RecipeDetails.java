@@ -24,14 +24,6 @@ public class RecipeDetails extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        String email = String.valueOf(session.getAttribute("authorised")); // pobranie maila z sesji i przypisanie go do Stringa do dalszego użycia
-        AdminDao adminDao = new AdminDao();
-        List<Admin> adminList = adminDao.findAdminsByEmail(email);
-        Admin admin = new Admin();
-        admin = adminList.get(0);
-
-        request.setAttribute("admin",admin); //Imię użytkownika na stronie po zalogowaniu w prawym górnym rogu
         int id = Integer.parseInt(request.getParameter("id"));
         RecipeDao recipeDao = new RecipeDao();
         Recipe recipe = recipeDao.read(id);
