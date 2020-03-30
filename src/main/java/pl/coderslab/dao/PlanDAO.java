@@ -31,6 +31,13 @@ public class PlanDAO {
             "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
             "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
+    private static final String FIND_PLAN_DETAILS_QUERY = "SELECT recipe_plan.id as recipe_plan_id, " +
+            "day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id = ?\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -206,6 +213,35 @@ public class PlanDAO {
 
         return myPlanDetails;
     }
+
+    public List<PlanDetails> findPlanDetails(int planId) {
+        List<PlanDetails> myPlanDetails = new ArrayList<>();
+        RecipeDao recipeDao = new RecipeDao();
+        PlanDAO planDAO = new PlanDAO();
+
+
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_PLAN_DETAILS_QUERY)) {
+            statement.setInt(1, planId);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    PlanDetails planDetails = new PlanDetails();
+
+                    planDetails.setId(resultSet.getInt("recipe_plan_id"));
+                    planDetails.setDayName(resultSet.getString("day_name"));
+                    planDetails.setMealName(resultSet.getString("meal_name"));
+                    planDetails.setRecipe(recipeDao.read(resultSet.getInt("recipe_id")));
+                    planDetails.setPlan(planDAO.read(resultSet.getInt("plan_id")));
+                    myPlanDetails.add(planDetails);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return myPlanDetails;
+    }
+
 
 
 }
