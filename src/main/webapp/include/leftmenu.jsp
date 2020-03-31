@@ -8,19 +8,19 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <ul class="nav flex-column long-bg">
     <li class="nav-item">
-        <a class="nav-link" href="/dashboard.html">
+        <a class="nav-link" href="/app/dashboard">
             <span>Pulpit</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/app-recipes.html">
+        <a class="nav-link" href="/app/recipe/list">
             <span>Przepisy</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/app-schedules.html">
+        <a class="nav-link" href="/app/plan/list">
             <span>Plany</span>
             <i class="fas fa-angle-right"></i>
         </a>
@@ -40,6 +40,12 @@
     <li class="nav-item">
         <a class="nav-link" href="/super-admin-users.html">
             <span>Użytkownicy</span>
+            <i class="fas fa-angle-right"></i>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/app/logout">
+            <span>Wyloguj</span>
             <i class="fas fa-angle-right"></i>
         </a>
     </li>
