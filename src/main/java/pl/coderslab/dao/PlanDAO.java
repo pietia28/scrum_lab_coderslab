@@ -3,17 +3,15 @@ package pl.coderslab.dao;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
-import pl.coderslab.model.Recipe;
 import pl.coderslab.model.PlanDetails;
 import pl.coderslab.utils.DbUtil;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class PlanDAO {
@@ -38,6 +36,13 @@ public class PlanDAO {
             "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
             "        recipe_plan.plan_id = ?\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
+    private static final String CREATE_RECIPE_PLAN_QUERY = "INSERT INTO recipe_plan(" +
+            "recipe_id, " +
+            "meal_name, " +
+            "display_order, " +
+            "day_name_id, " +
+            "plan_id) " +
+            "VALUES (?,?,?,?,?)";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -240,6 +245,38 @@ public class PlanDAO {
         }
 
         return myPlanDetails;
+    }
+
+    public Integer createRecipePlan (Map<String, String> recipePlan){
+
+        try (Connection connection = DbUtil.getConnection();
+        PreparedStatement statement = connection.prepareStatement(CREATE_RECIPE_PLAN_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, recipePlan.get("recipe_id"));
+            statement.setString(2, recipePlan.get("meal_name"));
+            statement.setString(3, recipePlan.get("display_order"));
+            statement.setString(4, recipePlan.get("day_name_id"));
+            statement.setString(5, recipePlan.get("plan_id"));
+
+            int result = statement.executeUpdate();
+
+            if (result != 1) {
+                throw new RuntimeException("Execute update returned: " + result);
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.first()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new RuntimeException("Generated key not found.");
+                }
+            }
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 
