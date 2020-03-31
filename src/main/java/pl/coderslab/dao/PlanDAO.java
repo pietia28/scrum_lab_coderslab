@@ -3,17 +3,15 @@ package pl.coderslab.dao;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
-import pl.coderslab.model.Recipe;
 import pl.coderslab.model.PlanDetails;
 import pl.coderslab.utils.DbUtil;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class PlanDAO {
@@ -24,10 +22,29 @@ public class PlanDAO {
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ? WHERE id = ?;";
     private static final String FIND_ALL_PLANS_BY_ADMIN_ID_QUERY = "SELECT * FROM plan WHERE admin_id = ? ORDER BY created DESC;";
-    private static final String FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY = "SELECT recipe_plan.id as recipe_plan_id, day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id FROM recipe_plan JOIN day_name on day_name.id=day_name_id JOIN recipe on recipe.id=recipe_id WHERE recipe_plan.plan_id =\n" +
-            "                                                                                                                                (SELECT MAX(plan.id) from plan\n" +
-            "                                                                                                                                                              RIGHT JOIN recipe_plan on plan.id = recipe_plan.plan_id \n" +
-            "                                                                                                                                 WHERE admin_id = ? ) ORDER BY day_name.display_order, recipe_plan.display_order;";
+    private static final String FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY = "SELECT recipe_plan.id as recipe_plan_id, 
+            day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id 
+            FROM recipe_plan 
+                      JOIN day_name on day_name.id=day_name_id 
+                      JOIN recipe on recipe.id=recipe_id WHERE 
+  recipe_plan.plan_id =\n" +(SELECT MAX(plan.id) from plan\n" +
+            "    RIGHT JOIN recipe_plan on plan.id = recipe_plan.plan_id \n" +WHERE admin_id = ? ) 
+  ORDER BY day_name.display_order, recipe_plan.display_order;";
+    private static final String FIND_PLAN_DETAILS_QUERY = "SELECT recipe_plan.id as recipe_plan_id, " +
+            "day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id = ?\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
+    private static final String CREATE_RECIPE_PLAN_QUERY = "INSERT INTO recipe_plan(" +
+            "recipe_id, " +
+            "meal_name, " +
+            "display_order, " +
+            "day_name_id, " +
+            "plan_id) " +
+            "VALUES (?,?,?,?,?)";
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -203,6 +220,67 @@ public class PlanDAO {
 
         return myPlanDetails;
     }
+
+    public List<PlanDetails> findPlanDetails(int planId) {
+        List<PlanDetails> myPlanDetails = new ArrayList<>();
+        RecipeDao recipeDao = new RecipeDao();
+        PlanDAO planDAO = new PlanDAO();
+
+
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_PLAN_DETAILS_QUERY)) {
+            statement.setInt(1, planId);
+            try (ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    PlanDetails planDetails = new PlanDetails();
+
+                    planDetails.setId(resultSet.getInt("recipe_plan_id"));
+                    planDetails.setDayName(resultSet.getString("day_name"));
+                    planDetails.setMealName(resultSet.getString("meal_name"));
+                    planDetails.setRecipe(recipeDao.read(resultSet.getInt("recipe_id")));
+                    planDetails.setPlan(planDAO.read(resultSet.getInt("plan_id")));
+                    myPlanDetails.add(planDetails);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return myPlanDetails;
+    }
+
+    public Integer createRecipePlan (Map<String, String> recipePlan){
+
+        try (Connection connection = DbUtil.getConnection();
+        PreparedStatement statement = connection.prepareStatement(CREATE_RECIPE_PLAN_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, recipePlan.get("recipe_id"));
+            statement.setString(2, recipePlan.get("meal_name"));
+            statement.setString(3, recipePlan.get("display_order"));
+            statement.setString(4, recipePlan.get("day_name_id"));
+            statement.setString(5, recipePlan.get("plan_id"));
+
+            int result = statement.executeUpdate();
+
+            if (result != 1) {
+                throw new RuntimeException("Execute update returned: " + result);
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.first()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new RuntimeException("Generated key not found.");
+                }
+            }
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
 
 
 }

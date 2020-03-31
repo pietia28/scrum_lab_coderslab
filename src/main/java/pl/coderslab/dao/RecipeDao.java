@@ -36,8 +36,8 @@ public class RecipeDao {
             "preparation = ?" +
             "WHERE id = ?;";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe WHERE id = ?;";
-    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe ORDER BY updated DESC;";
-    private static final String FIND_ALL_RECIPES_BY_ADMIN_ID_QUERY = "SELECT * FROM recipe WHERE admin_id = ? ORDER BY updated DESC;";
+    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe ORDER BY created DESC;";
+    private static final String FIND_ALL_RECIPES_BY_ADMIN_ID_QUERY = "SELECT * FROM recipe WHERE admin_id = ? ORDER BY created DESC;";
     private static final String FIND_ALL_RECIPES_BY_NAME_QUERY = "SELECT * FROM recipe WHERE name LIKE ? ;";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
