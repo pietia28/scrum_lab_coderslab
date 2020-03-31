@@ -29,6 +29,9 @@
         <jsp:include page="../include/leftmenu.jsp"/>
 
         <div class="m-4 p-3 width-medium">
+            <c:if test="${message !=null}">
+                <div class="app-error"><c:out value="${message}"></c:out></div>
+            </c:if>
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
                     <div class="col noPadding"><h3 class="color-header text-uppercase">Lista Przepisów</h3></div>
@@ -56,7 +59,18 @@
                                 ${recipe.getDescription()}
                         </td>
                         <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                            <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+
+                         <%--Przycisk usuwania--%>
+
+                             <c:choose>
+                                 <c:when test="${button == recipe.getId()}">
+                                     <a href="/app/recipe/delete?id=${recipe.getId()}" class="btn btn-danger rounded-0 text-light m-1">Potwierdź usunięcie</a>
+                                 </c:when>
+                                 <c:otherwise>
+                                     <a href="/app/recipe/delete?id=${recipe.getId()}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                 </c:otherwise>
+                             </c:choose>
+
                             <a href="/app-recipe-details.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                             <a href="/app-edit-recipe.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                         </td>

@@ -39,6 +39,7 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe ORDER BY updated DESC;";
     private static final String FIND_ALL_RECIPES_BY_ADMIN_ID_QUERY = "SELECT * FROM recipe WHERE admin_id = ? ORDER BY updated DESC;";
     private static final String FIND_ALL_RECIPES_BY_NAME_QUERY = "SELECT * FROM recipe WHERE name LIKE ? ;";
+    private static final String FIND_DISTINCT_RECIPES_ADDED_TO_PLAN = "SELECT DISTINCT recipe_plan.recipe_id as recipe_id FROM recipe_plan;";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -233,5 +234,22 @@ public class RecipeDao {
         return recipes.size();
     }
 
+    public List<Integer> findDistinctRecipesAddedToPlan() {
+        List<Integer> recipeList = new ArrayList<>();
+
+        try (Connection connect = DbUtil.getConnection()){
+            PreparedStatement statement = connect.prepareStatement(FIND_DISTINCT_RECIPES_ADDED_TO_PLAN);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                recipeList.add(resultSet.getInt("recipe_id"));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return recipeList;
+    }
 
 }
