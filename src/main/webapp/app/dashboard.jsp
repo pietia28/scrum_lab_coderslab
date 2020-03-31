@@ -44,7 +44,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="dashboard-alerts">
                     <div class="alert-item alert-info">
                         <i class="fas icon-circle fa-info-circle"></i>
@@ -58,21 +57,50 @@
             </div>
             <div class="m-4 p-4 border-dashed">
                 <h2 class="dashboard-content-title">
-                    <span>Ostatnio dodany plan:</span> ${plan.name}
+                    <span>Ostatnio dodany plan z przepisami:</span> ${plan.name}
                 </h2>
+                <c:if test="${not empty planDetails}">
                 <table class="table">
                     <thead>
-                    <c:forEach items="${planDetails}" var="planDetail" varStatus="theCount" begin ="1">
-                    <c:choose >
-                    <c:when test ="${planDetails.get(theCount.index).getDayName() == planDetails.get(theCount.index - 1).getDayName()}">
+                    <tr class="d-flex">
+                        <th class="col-2">${planDetails.get(0).getDayName()}</th>
+                        <th class="col-8"></th>
+                        <th class="col-2"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="d-flex">
+                        <td class="col-2">${planDetails.get(0).getMealName()}</td>
+
+                        <td class="col-8">${planDetails.get(0).recipe.getIngredients()}</td>
+
+                        <td class="col-2"><a href="/app/recipe/details?id=${planDetails.get(0).recipe.getId()}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <c:forEach items="${planDetails}" var="planDetail" varStatus="theCount" begin ="1">
+                <c:choose >
+                <c:when test ="${planDetails.get(theCount.index).getDayName() == planDetails.get(theCount.index - 1).getDayName()}">
+                <table class="table">
+                    <tbody>
+                <tr class="d-flex">
+                    <td class="col-2">${planDetail.mealName}</td>
+
+                    <td class="col-8">${planDetail.recipe.ingredients}</td>
+
+                    <td class="col-2"><a href="/app/recipe/details?id=${planDetail.recipe.id}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
+                </tr>
+                </tbody>
+                </table>
+                </c:when>
+                <c:otherwise>
+                <table class="table">
+                    <thead>
                     <tr class="d-flex">
                         <th class="col-2">${planDetail.dayName}</th>
                         <th class="col-8"></th>
                         <th class="col-2"></th>
                     </tr>
-                    </c:when>
-                    <c:otherwise></c:otherwise>
-                    </c:choose>
                     </thead>
                     <tbody>
                     <tr class="d-flex">
@@ -83,13 +111,16 @@
                         <td class="col-2"><a href="/app/recipe/details?id=${planDetail.recipe.id}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                     </tr>
                     </tbody>
-                    </c:forEach>
-                </table>
+                </c:otherwise>
+                </c:choose>
+                </c:forEach>
+                    </c:if>
             </div>
         </div>
     </div>
 </section>
-<jsp:include page="/include/footer.jsp"/>
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

@@ -47,14 +47,20 @@ public class Dashboard extends HttpServlet {
 
         Plan plan = new Plan();
         PlanDetails planDetails = new PlanDetails();
+
         List<PlanDetails> planList = planDAO.findAllRecipePlanDetails(admin.getId());
-        planDetails = planList.get(0);
-        plan = planDetails.getPlan();
+        if (planList.size() > 0 ) {
 
-        request.setAttribute("plan", plan); // Ostatni dodany plan nazwa
 
-        request.setAttribute("planDetails", planList);
+            planDetails = planList.get(0); // błąd
 
+            plan = planDetails.getPlan();
+
+
+            request.setAttribute("plan", plan); // Ostatni dodany plan nazwa
+
+            request.setAttribute("planDetails", planList);
+        }
 
         getServletContext().getRequestDispatcher("/app/dashboard.jsp")
                 .forward(request, response);
