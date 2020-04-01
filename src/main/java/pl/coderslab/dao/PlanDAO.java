@@ -22,14 +22,9 @@ public class PlanDAO {
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ? WHERE id = ?;";
     private static final String FIND_ALL_PLANS_BY_ADMIN_ID_QUERY = "SELECT * FROM plan WHERE admin_id = ? ORDER BY created DESC;";
-    private static final String FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY = "SELECT recipe_plan.id as recipe_plan_id, 
-            day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id 
-            FROM recipe_plan 
-                      JOIN day_name on day_name.id=day_name_id 
-                      JOIN recipe on recipe.id=recipe_id WHERE 
-  recipe_plan.plan_id =\n" +(SELECT MAX(plan.id) from plan\n" +
-            "    RIGHT JOIN recipe_plan on plan.id = recipe_plan.plan_id \n" +WHERE admin_id = ? ) 
-  ORDER BY day_name.display_order, recipe_plan.display_order;";
+    private static final String FIND_NEWEST_PLAN_BY_ADMIN_ID_QUERY = "SELECT recipe_plan.id as recipe_plan_id, day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id FROM recipe_plan JOIN day_name on day_name.id=day_name_id JOIN recipe on recipe.id=recipe_id WHERE recipe_plan.plan_id =\n" +
+            "                                                                                                                                (SELECT MAX(plan.id) from plan\n" +
+            "                                                                                                                                                              RIGHT JOIN recipe_plan on plan.id = recipe_plan.plan_id WHERE admin_id = ?)ORDER BY day_name.display_order, recipe_plan.display_order;";
     private static final String FIND_PLAN_DETAILS_QUERY = "SELECT recipe_plan.id as recipe_plan_id, " +
             "day_name.name as day_name,  meal_name,  recipe.id as recipe_id, plan_id\n" +
             "FROM `recipe_plan`\n" +
