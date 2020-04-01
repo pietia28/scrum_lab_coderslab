@@ -71,8 +71,8 @@
                                  </c:otherwise>
                              </c:choose>
 
-                            <a href="/app-recipe-details.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            <a href="/app-edit-recipe.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+                            <a href="/app/recipe/details?id=${recipe.getId()}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                            <a href="/app/recipe/edit?id=${recipe.getId()}" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                         </td>
                     </tr>
 
