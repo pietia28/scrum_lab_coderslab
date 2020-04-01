@@ -19,7 +19,7 @@ public class EditRecipe extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int recipeId = Integer.parseInt(request.getParameter("recipeId"));
+        int recipeId = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("recipe", getRecipeById(recipeId));
         getServletContext().getRequestDispatcher("/app/edit-recipe.jsp")
                 .forward(request, response);

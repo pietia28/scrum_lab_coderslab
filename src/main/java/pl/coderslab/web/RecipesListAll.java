@@ -1,8 +1,7 @@
-package pl.coderslab.web.app;
+package pl.coderslab.web;
 
 import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 
 import javax.servlet.ServletException;
@@ -12,30 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "RecipesList", urlPatterns = {"/app/recipe/list"})
-public class RecipesList extends HttpServlet {
+@WebServlet(name = "RecipesListAll", urlPatterns = {"/recipelistall"})
+public class RecipesListAll extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-
-        HttpSession session = request.getSession();
-        String adminEmail = (String)session.getAttribute("authorised");
-        AdminDao adminDao = new AdminDao();
-        int adminId = adminDao.findSingleAdminByEmail(adminEmail).getId();
-
+        Recipe recipe = new Recipe();
         RecipeDao recipeDao = new RecipeDao();
-        List<Recipe> adminRecipes = recipeDao.findAllByAdminId(adminId);
-        session.setAttribute("adminRecipes", adminRecipes);
+        List<Recipe> recipesAll = recipeDao.findAll();
+        request.setAttribute("recipes",recipesAll);
 
-        getServletContext().getRequestDispatcher("/app/recipesList.jsp")
+        getServletContext().getRequestDispatcher("/recipelistall.jsp")
                 .forward(request, response);
 
     }
