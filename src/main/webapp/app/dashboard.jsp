@@ -111,6 +111,7 @@
                         <td class="col-2"><a href="/app/recipe/details?id=${planDetail.recipe.id}"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></a></td>
                     </tr>
                     </tbody>
+                </table>
                 </c:otherwise>
                 </c:choose>
                 </c:forEach>
