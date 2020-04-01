@@ -56,7 +56,7 @@
                         </div>
 
                     </div>
-                    <input type="hidden" name="type" value="${param.planId}" />
+                    <input type="hidden" name="id" value="${param.id}" />
                 </form>
             </div>
         </div>
