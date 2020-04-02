@@ -281,3 +281,4 @@ public class AdminDao {
     }
 
 }
+//TODO sprawdzic poprawnosc metod pod katem CLOSEBLE

@@ -35,7 +35,8 @@
                     </div>
                 </div>
                 <div>
-                    <form class="padding-small text-center" action="/app/delete" method="post">
+                    <form class="padding-small text-center" action="${pageContext.servletContext.contextPath}" method="post">
+                        <input type="hidden" name="planId" value=${planId}>
                         <h4>Czy na pewno chcesz usunąć ${typeMsg}?</h4>
                         <c:if test="${not empty warning}">
                         <div class="container w-25"><div>
