@@ -22,7 +22,6 @@ public class SchedulesList extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         //TODO obsługa przycisków akcji: USUŃ, EDYTUJ, SZCZEGÓŁY
 
         HttpSession session = request.getSession();

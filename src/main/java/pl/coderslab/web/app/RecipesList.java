@@ -21,8 +21,6 @@ public class RecipesList extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-
         HttpSession session = request.getSession();
         String adminEmail = (String)session.getAttribute("authorised");
         AdminDao adminDao = new AdminDao();

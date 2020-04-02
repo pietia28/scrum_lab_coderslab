@@ -13,7 +13,6 @@ public class About extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         getServletContext().getRequestDispatcher("/about.jsp").forward(request, response);
     }
 }

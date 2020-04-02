@@ -23,7 +23,6 @@ import java.util.Map;
 public class AddSchedulesMealRecipe extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF8"); //potrzebne do zapisu do bazy
         HttpSession session = request.getSession();
 
         Map<String, String> recipePlan = getDataToSave(request);

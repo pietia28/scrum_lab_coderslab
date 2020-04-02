@@ -13,7 +13,6 @@ import java.io.IOException;
 @WebServlet(name = "EditRecipe", urlPatterns = {"/app/recipe/edit"})
 public class EditRecipe extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF8");
         updateRecipe(request);
         response.sendRedirect(request.getContextPath() + "/app/recipe/list");
     }
