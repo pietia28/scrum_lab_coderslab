@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: airon
-  Date: 31.03.2020
-  Time: 23:23
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -20,43 +14,55 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
-
-<jsp:include page="../include/app-header.jsp"/>
-
+<jsp:include page="../include/app-header.jsp" />
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
         <jsp:include page="../include/leftmenu.jsp" />
 
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
-                <div class="row border-bottom border-3 p-1 m-1">
-                    <div class="col noPadding">
-                        <h3 class="color-header text-uppercase">USUWANIE DANYCH</h3>
+                <!-- fix action, method -->
+                <!-- add name attribute for all inputs -->
+
+                <%-- wpisać własciwy adres servletu edycji--%>
+                <form action="/app/plan/edit" method="post">
+                    <div class="row border-bottom border-3 p-1 m-1">
+                        <div class="col noPadding">
+                            <h3 class="color-header text-uppercase">EDYCJA PLANU</h3>
+                        </div>
+                        <div class="col d-flex justify-content-end mb-2 noPadding">
+                            <button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</button>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <form class="padding-small text-center" action="${pageContext.servletContext.contextPath}" method="post">
-                        <input type="hidden" name="planId" value=${planId}>
-                        <h4>Czy na pewno chcesz usunąć ${typeMsg}?</h4>
-                        <c:if test="${not empty warning}">
-                        <div class="container w-25"><div>
-                                <div class="app-error"><c:out value="${warning}"></c:out></div>
-                            <c:set  var="warning" value="" />
+
+                    <div class="schedules-content">
+
+                        <div class="form-group row">
+                            <label for="planName" class="col-sm-2 label-size col-form-label">
+                                Nazwa planu
+                            </label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="planName" name="planName" value="${param.planName}">
                             </div>
-                        </c:if>
-                        <input type="hidden" name="type" value="${param.type}" />
-                        <input type="hidden" name="id" value="${param.id}" />
-                        <button type="submit" value="true" name="submit" class="btn btn-danger rounded-0 text-light m-1">Usuń</button>
-                        <button type="submit" value="false" name="submit" class="btn btn-success rounded-0 text-light m-1">Anuluj</button>
-                    </form>
-                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="planDescription" class="col-sm-2 label-size col-form-label">
+                                Opis planu
+                            </label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="5" id="planDescription"
+                                          name="planDescription">${param.planDescription}</textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="id" value="${param.id}" />
+                </form>
             </div>
         </div>
     </div>
 </section>
 <jsp:include page="../include/footer.jsp"/>
-
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

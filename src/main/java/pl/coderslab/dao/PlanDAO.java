@@ -42,6 +42,7 @@ public class PlanDAO {
             "VALUES (?,?,?,?,?)";
     private static final String DELETE_RECIPE_FROM_PLAN_QUERY =
             "DELETE FROM recipe_plan WHERE id = ?";
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -163,6 +164,20 @@ public class PlanDAO {
             boolean deleted = statement.execute();
             if (!deleted) {
                 throw new NotFoundException("Plan not found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteRecipeFromPlan(Integer recipePlanId) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_FROM_PLAN_QUERY)) {
+            statement.setInt(1, recipePlanId);
+            statement.executeUpdate();
+
+            boolean deleted = statement.execute();
+            if (!deleted) {
+                throw new NotFoundException("Recipe not found");
             }
         } catch (Exception e) {
             e.printStackTrace();
