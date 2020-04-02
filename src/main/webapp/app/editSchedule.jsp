@@ -37,7 +37,7 @@
                                 Nazwa planu
                             </label>
                             <div class="col-sm-10">
-                                <input class="form-control" id="planName" name="planName" value="${param.planName}">
+                                <input class="form-control" id="planName" name="planName" value="${planName}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -46,7 +46,7 @@
                             </label>
                             <div class="col-sm-10">
                                 <textarea class="form-control" rows="5" id="planDescription"
-                                          name="planDescription">${param.planDescription}</textarea>
+                                          name="planDescription">${planDescription}</textarea>
                             </div>
                         </div>
 
