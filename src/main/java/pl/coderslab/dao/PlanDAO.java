@@ -4,6 +4,7 @@ import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.PlanDetails;
+import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
@@ -39,7 +40,8 @@ public class PlanDAO {
             "day_name_id, " +
             "plan_id) " +
             "VALUES (?,?,?,?,?)";
-
+    private static final String DELETE_RECIPE_FROM_PLAN_QUERY =
+            "DELETE FROM recipe_plan WHERE id = ?";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -276,6 +278,22 @@ public class PlanDAO {
         return null;
     }
 
+    public void deleteRecipePlan (int recipePlanId) {
+        try (Connection connection = DbUtil.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RECIPE_FROM_PLAN_QUERY))
+        {
+            preparedStatement.setInt(1, recipePlanId);
+            preparedStatement.executeUpdate();
+
+            boolean deleted = preparedStatement.execute();
+            if (!deleted) {
+                throw new NotFoundException("Record not found");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
 }
