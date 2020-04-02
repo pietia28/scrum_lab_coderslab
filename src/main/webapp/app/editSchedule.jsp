@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -21,10 +20,6 @@
 
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
-                <!-- fix action, method -->
-                <!-- add name attribute for all inputs -->
-
-                <%-- wpisać własciwy adres servletu edycji--%>
                 <form action="/app/plan/edit" method="post">
                     <div class="row border-bottom border-3 p-1 m-1">
                         <div class="col noPadding">
