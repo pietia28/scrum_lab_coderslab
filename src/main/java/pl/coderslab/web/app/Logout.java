@@ -1,8 +1,5 @@
 package pl.coderslab.web.app;
 
-import pl.coderslab.dao.AdminDao;
-import pl.coderslab.model.Admin;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
