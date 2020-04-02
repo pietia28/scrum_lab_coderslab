@@ -72,7 +72,8 @@
                             <td class="col-2">${planDetailsList.get(0).getMealName()}</td>
                             <td class="col-7">${planDetailsList.get(0).getRecipe().getName()}</td>
                             <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                <a href="/app/plan/delete-recipe?id=${planDetailsList.get(0).getId()}&recipeId=${planDetailsList.get(0).getRecipe().getId()}&planId=${planDetailsList.get(0).getPlan().getId()}"
+                                   class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             </td>
                             <td class="col-2 center">
                                 <a href="/app/recipe/details?id=${planDetailsList.get(0).getRecipe().getId()}"
@@ -91,10 +92,11 @@
                                 <td class="col-2">${planDetails.getMealName()}</td>
                                 <td class="col-7">${planDetails.getRecipe().getName()}</td>
                                 <td class="col-1 center">
-                                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                    <a href="/app/plan/delete-recipe?id=${planDetailsList.get(theCount.index).getId()}&recipeId=${planDetailsList.get(theCount.index).getRecipe().getId()}&planId=${planDetailsList.get(0).getPlan().getId()}"
+                                       class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                                 </td>
                                 <td class="col-2 center">
-                                    <a href="/app/recipe/details?id=${planDetailsList.get(1).getRecipe().getId()}"
+                                    <a href="/app/recipe/details?id=${planDetailsList.get(theCount.index).getRecipe().getId()}"
                                        class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                                 </td>
                             </tr>
@@ -118,7 +120,8 @@
                             <td class="col-2">${planDetails.getMealName()}</td>
                             <td class="col-7">${planDetails.getRecipe().getName()}</td>
                             <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                <a href="/app/plan/delete-recipe?id=${planDetailsList.get(theCount.index).getId()}&recipeId=${planDetails.getRecipe().getId()}&planId=${planDetailsList.get(0).getPlan().getId()}"
+                                   class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             </td>
                             <td class="col-2 center">
                                 <a href="/app/recipe/details?id=${planDetails.getRecipe().getId()}"
