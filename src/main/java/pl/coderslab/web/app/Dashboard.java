@@ -21,13 +21,10 @@ public class Dashboard extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String email = String.valueOf(session.getAttribute("authorised")); // pobranie maila z sesji i przypisanie go do Stringa do dalszego użycia
-
-
 
         RecipeDao recipeDao = new RecipeDao();
         request.setAttribute("numberofrecipes" ,String.valueOf(recipeDao.numberOfRecipes(email))); // liczba przepisów
@@ -40,18 +37,15 @@ public class Dashboard extends HttpServlet {
         Admin admin = new Admin();
         admin = adminList.get(0);
 
-
         Plan plan = new Plan();
         PlanDetails planDetails = new PlanDetails();
 
         List<PlanDetails> planList = planDAO.findAllRecipePlanDetails(admin.getId());
         if (planList.size() > 0 ) {
 
-
             planDetails = planList.get(0); // błąd
 
             plan = planDetails.getPlan();
-
 
             request.setAttribute("plan", plan); // Ostatni dodany plan nazwa
 
@@ -61,13 +55,7 @@ public class Dashboard extends HttpServlet {
         getServletContext().getRequestDispatcher("/app/dashboard.jsp")
                 .forward(request, response);
 
-
     }
-
-
-
-
-
-    }
+}
 
 

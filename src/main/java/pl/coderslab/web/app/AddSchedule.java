@@ -17,9 +17,6 @@ import java.io.IOException;
 public class AddSchedule extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.setCharacterEncoding("UTF8");
-        response.setContentType("text/html");
-        request.setCharacterEncoding("UTF8"); //potrzebne dozapisania polskich znaków w bazie
         HttpSession session = request.getSession();
 
         String adminEmail = (String)session.getAttribute("authorised");
