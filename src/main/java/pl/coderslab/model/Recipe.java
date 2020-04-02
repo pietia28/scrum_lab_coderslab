@@ -2,7 +2,6 @@ package pl.coderslab.model;
 
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Recipe {
 

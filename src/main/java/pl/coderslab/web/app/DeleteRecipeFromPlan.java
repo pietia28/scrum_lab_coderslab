@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "DeleteRecipeFromPlan", urlPatterns = {"/app/plan/delete-recipe"})
 public class DeleteRecipeFromPlan extends HttpServlet {

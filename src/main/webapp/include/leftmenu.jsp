@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: airon
-  Date: 28.03.2020
-  Time: 13:35
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html; charset=UTF-8" %>
 <ul class="nav flex-column long-bg">
     <li class="nav-item">
