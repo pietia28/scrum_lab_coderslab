@@ -35,10 +35,10 @@
         </tr>
         </thead>
 
-        <c:forEach items="${recipes}" var="recipe">
+        <c:forEach items="${recipes}" var="recipe" varStatus="theCount">
         <tbody class="text-color-lighter">
         <tr class="d-flex">
-            <th scope="row" class="col-1">${recipe.getId()}</th>
+            <th scope="row" class="col-1">${theCount.index+1}</th>
             <td class="col-5">
                 ${recipe.getName()}
             </td>
